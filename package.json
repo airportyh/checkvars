@@ -6,6 +6,10 @@
   "dependencies": {
     "falafel": "~0.3.1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:airportyh/checkvars.git"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "mocha -u tdd tests.js"
