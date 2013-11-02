@@ -1,0 +1,18 @@
+{
+  "name": "checkvars",
+  "version": "0.0.0",
+  "description": "Check your Javascripts for accidental globals and unused variables.",
+  "main": "index.js",
+  "dependencies": {
+    "falafel": "~0.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha -u tdd tests.js"
+  },
+  "keywords": [
+    "static-analysis"
+  ],
+  "author": "Toby Ho",
+  "license": "MIT"
+}
