@@ -6,6 +6,9 @@
   "dependencies": {
     "falafel": "~0.3.1"
   },
+  "bin": {
+    "checkvars": "./cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:airportyh/checkvars.git"
