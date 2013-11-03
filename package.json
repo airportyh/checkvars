@@ -4,7 +4,8 @@
   "description": "Check your Javascripts for accidental globals and unused variables.",
   "main": "index.js",
   "dependencies": {
-    "falafel": "~0.3.1"
+    "falafel": "~0.3.1",
+    "colors": "~0.6.2"
   },
   "bin": {
     "checkvars": "./cli.js"

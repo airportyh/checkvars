@@ -3,7 +3,7 @@ var assert = require('assert')
 
 test('tracks new globals', function(){
   var r = checkVars('g = 1')
-  assert.deepEqual(r.newGlobals, ['g'])
+  assert.deepEqual(names(r.newGlobals), ['g'])
 })
 
 test('ignore locals though', function(){
@@ -20,7 +20,7 @@ test('in function', function(){
     '  g = 1',
     '}'
   ].join('\n'))
-  assert.deepEqual(r.newGlobals, ['g'])
+  assert.deepEqual(names(r.newGlobals), ['g'])
 })
 
 test('in function ignore locals', function(){
@@ -42,6 +42,22 @@ test('in function but has inner function with var', function(){
     '  }',
     '}'
   ].join('\n'))
-  assert.deepEqual(r.newGlobals, ['g'])
+  assert.deepEqual(names(r.newGlobals), ['g'])
 })
 
+test('returns location info', function(){
+  var r = checkVars([
+    'function f(){',
+    '  g = 1',
+    '  f = 2',
+    '}'
+  ].join('\n'))
+  assert.deepEqual(names(r.newGlobals), ['g', 'f'])
+  assert.deepEqual(r.newGlobals[0].loc.start, {line: 2, column: 2})
+  assert.deepEqual(r.newGlobals[1].loc.start, {line: 3, column: 2})
+})
+
+
+function names(arr){
+  return arr.map(function(g){ return g.name })
+}

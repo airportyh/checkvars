@@ -1,19 +1,20 @@
 var falafel = require('falafel')
 
 module.exports = function checkVars(code){
-  var newGlobals = {}
-  falafel(code, function(node){
+  newGlobals = []
+  falafel(code, {loc: true}, function(node){
     if (node.type === 'AssignmentExpression' && node.left.type === 'Identifier'){
       var func = parentFunction(node)
       var vars = varsDeclared(func.body)
-      if (!vars[node.left.name]){
+      var idNode = node.left
+      if (!vars[idNode.name]){
         //console.log(node)
-        newGlobals[node.left.name] = true
+        newGlobals.push({name: idNode.name, loc: idNode.loc})
       }
     }
   })
   return {
-    newGlobals: Object.keys(newGlobals)
+    newGlobals: newGlobals
   }
 }
 
