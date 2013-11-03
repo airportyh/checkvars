@@ -1,6 +1,6 @@
 {
   "name": "checkvars",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Check your Javascripts for accidental globals and unused variables.",
   "main": "index.js",
   "dependencies": {
