@@ -1,7 +1,7 @@
 var falafel = require('falafel')
 
 module.exports = function checkVars(code){
-  newGlobals = []
+  var newGlobals = []
   falafel(code, {loc: true}, function(node){
     if (node.type === 'AssignmentExpression' && node.left.type === 'Identifier'){
       var idNode = node.left

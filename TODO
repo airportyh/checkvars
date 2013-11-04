@@ -1,6 +1,5 @@
 TODO
 ====
 
-1. Report line numbers
-2. detect unused variables
-3. detect undeclared globals referenced
+1. detect unused variables
+2. detect undeclared globals referenced
