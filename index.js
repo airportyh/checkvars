@@ -4,11 +4,9 @@ module.exports = function checkVars(code){
   newGlobals = []
   falafel(code, {loc: true}, function(node){
     if (node.type === 'AssignmentExpression' && node.left.type === 'Identifier'){
-      var func = parentFunction(node)
-      var vars = varsDeclared(func.body)
       var idNode = node.left
-      if (!vars[idNode.name]){
-        //console.log(node)
+      var varname = idNode.name
+      if (!isVarDeclared(varname, node)){
         newGlobals.push({name: idNode.name, loc: idNode.loc})
       }
     }
@@ -19,8 +17,10 @@ module.exports = function checkVars(code){
 }
 
 function parentFunction(node){
-  var next = node;
-  while(next.parent && next.type !== 'FunctionExpression' &&
+  var next = node.parent
+  while(next &&
+    next.parent &&
+    next.type !== 'FunctionExpression' &&
     next.type !== 'FunctionDeclaration'){
     next = next.parent;
   }
@@ -29,7 +29,13 @@ function parentFunction(node){
 
 function varsDeclared(funNode){
   var vars = []
-  walk(funNode, function(node){
+  var map = {}
+  if (funNode.params){
+    funNode.params.forEach(function(param){
+      map[param.name] = true
+    })
+  }
+  walk(funNode.body, function(node){
     if (node.type === 'VariableDeclaration'){
       vars.push(node)
     }
@@ -38,7 +44,6 @@ function varsDeclared(funNode){
       return false
     }
   })
-  var map = {}
   vars.forEach(function(vr){
     vr.declarations.forEach(function(dcl){
       map[dcl.id.name] = true
@@ -66,4 +71,14 @@ function walk (node, fun) {
             walk(child, fun);
         }
     });
+}
+
+function isVarDeclared(varname, node){
+  var func = parentFunction(node)
+  while (func){
+    var vars = varsDeclared(func)
+    if (varname in vars) return true
+    func = parentFunction(func)
+  }
+  return false
 }

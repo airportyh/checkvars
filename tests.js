@@ -45,6 +45,27 @@ test('in function but has inner function with var', function(){
   assert.deepEqual(names(r.newGlobals), ['g'])
 })
 
+test('in a parent scope', function(){
+  var r = checkVars([
+    'function f(){',
+    '  var g',
+    '  function h(){',
+    '    g = 1',
+    '  }',
+    '}'
+  ].join('\n'))
+  assert.deepEqual(r.newGlobals, [])
+})
+
+test('in a function param', function(){
+  var r = checkVars([
+    'function f(g){',
+    '  g = 1',
+    '}'
+  ].join('\n'))
+  assert.deepEqual(r.newGlobals, [])
+})
+
 test('returns location info', function(){
   var r = checkVars([
     'function f(){',
